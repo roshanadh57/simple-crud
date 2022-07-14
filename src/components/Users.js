@@ -15,6 +15,7 @@ import Avatar from "@material-ui/core/Avatar";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { Link } from "react-router-dom";
 
+
 //making style to the user page
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,9 +46,8 @@ function Users() {
     UsersGet();
   }, []);
 
-  //fetching user from the api. it is getting response and saving it to json and 
+  //fetching user from the api. it is getting response and saving it to json and
   //setting result to setUsers.
-
   const UsersGet = () => {
     fetch("https://www.mecallapi.com/api/users")
       .then((res) => res.json())
