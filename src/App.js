@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //import { Switch } from "react-router-dom"
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar.js";
 import Users from "./components/Users";
 import UserCreate from "./components/UserCreate";
 import UserUpdate from "./components/UserUpdate";

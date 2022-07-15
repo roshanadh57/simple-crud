@@ -14,9 +14,10 @@ import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { Link } from "react-router-dom";
+import Modal from "@mui/material/Modal";
+import { TextField } from "@material-ui/core";
 
-
-//making style to the user page
+//making style to the users page
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -36,12 +37,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//style for modal
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  backgroundColor: "white",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 function Users() {
   const classes = useStyles();
 
   //making the state to save the user information
   const [users, setUsers] = useState([]);
-
+  const [filterUsers, setFilterUsers] = useState([]);
   useEffect(() => {
     UsersGet();
   }, []);
@@ -52,7 +66,9 @@ function Users() {
     fetch("https://www.mecallapi.com/api/users")
       .then((res) => res.json())
       .then((result) => {
+        //console.log("res:", result);
         setUsers(result);
+        setFilterUsers(result);
       });
   };
 
@@ -81,6 +97,45 @@ function Users() {
       });
   };
 
+  //usestate to bring the data from the modal
+  const [nameData, setNameData] = useState({
+    firstName: "",
+    lastName: "",
+    userName: "",
+  });
+
+  const handleChange = (e) => {
+    setNameData({
+      ...nameData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // const search = setUsers.filter((search, index) => {
+  //   return { label: setUsers.fname, value: setUsers.id };
+  // });
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    const search = users.filter((user) => {
+      return (
+        (nameData.firstName &&
+          user.fname
+            .toLowerCase()
+            .includes(nameData.firstName.toLowerCase())) ||
+        (nameData.lastName &&
+          user.lname.toLowerCase().includes(nameData.lastName.toLowerCase())) ||
+        (nameData.userName &&
+          user.username.toLowerCase().includes(nameData.userName.toLowerCase()))
+      );
+    });
+    setFilterUsers(search);
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <div className={classes.root}>
       <Container className={classes.container} maxWidth="lg">
@@ -96,12 +151,68 @@ function Users() {
                 USERS
               </Typography>
             </Box>
-            <Box>
-              <Link to="/create">
-                <Button variant="contained" color="primary">
-                  CREATE
+            <Box
+              marginY={3}
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+                position: "relative",
+              }}
+            >
+              <Box>
+                <Link to="/create">
+                  <Button variant="contained" color="primary">
+                    CREATE
+                  </Button>
+                </Link>
+              </Box>
+              <Box>
+                <Button
+                  sx={{ flexDirection: "flex-end" }}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleOpen}
+                >
+                  Filter
                 </Button>
-              </Link>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box style={style}>
+                    <TextField
+                      label="First Name "
+                      id="outlined-basic"
+                      name="firstName"
+                      onChange={handleChange}
+                    />
+                    <br />
+                    <TextField
+                      id="outlined-basic"
+                      label="Second Name"
+                      name="lastName"
+                      onChange={handleChange}
+                    />
+                    <br />
+                    <TextField
+                      id="outlined-basic"
+                      label="User Name"
+                      name="userName"
+                      onChange={handleChange}
+                    />
+                    <br />
+                    <Button variant="contained" onClick={handleClick}>
+                      Search
+                    </Button>
+                    <Button variant="contained" onClick={handleClose}>
+                      Close
+                    </Button>
+                  </Box>
+                </Modal>
+              </Box>
             </Box>
           </Box>
           <TableContainer component={Paper}>
@@ -117,7 +228,7 @@ function Users() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.map((user) => (
+                {filterUsers.map((user) => (
                   <TableRow key={user.ID}>
                     <TableCell align="right">{user.id}</TableCell>
                     <TableCell align="center">
