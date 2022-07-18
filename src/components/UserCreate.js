@@ -29,6 +29,13 @@ const useStyles = makeStyles((theme) => ({
 function UserCreate() {
   const classes = useStyles();
 
+
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [avatar, setAvatar] = useState("");
+
   //const URL = ''
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -56,12 +63,7 @@ function UserCreate() {
       });
   };
 
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState("");
-
+  
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>

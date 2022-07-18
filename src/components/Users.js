@@ -72,10 +72,14 @@ function Users() {
       });
   };
 
+  //function to update user
   const UpdateUser = (id) => {
-    window.location = "/update/" + id;
+    //The window.location object can be used to get
+    //the current page address (URL) and to redirect the browser to a new page.
+    window.location.href = "/update/" + id;
   };
 
+  //function to delete user
   const UserDelete = (id) => {
     var data = {
       id: id,
@@ -104,6 +108,7 @@ function Users() {
     userName: "",
   });
 
+  //handlechange to get the value of text field from modal
   const handleChange = (e) => {
     setNameData({
       ...nameData,
@@ -111,10 +116,7 @@ function Users() {
     });
   };
 
-  // const search = setUsers.filter((search, index) => {
-  //   return { label: setUsers.fname, value: setUsers.id };
-  // });
-
+  //handle click of search button to filter name and last name
   const handleClick = (e) => {
     e.preventDefault();
     const search = users.filter((user) => {
@@ -132,6 +134,7 @@ function Users() {
     setFilterUsers(search);
   };
 
+  //creating modal to input the text.
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

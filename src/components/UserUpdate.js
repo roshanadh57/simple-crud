@@ -30,6 +30,13 @@ const useStyles = makeStyles((theme) => ({
 function UserUpdate() {
   const classes = useStyles();
 
+
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [avatar, setAvatar] = useState('');
+
   const { id } = useParams();
   useEffect(() => {
     fetch("https://www.mecallapi.com/api/users/"+id)
@@ -73,12 +80,6 @@ function UserUpdate() {
       }
     )
   }
-
-  const [fname, setFname] = useState('');
-  const [lname, setLname] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [avatar, setAvatar] = useState('');
 
   return (
     <Container maxWidth="xs">

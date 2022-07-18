@@ -10,7 +10,6 @@ function App() {
   return (
     <Router>
       <Navbar />
-      {/* <Users /> */}
       <Routes>
         <Route path="/" element={<Users />} />
         <Route exact path="/create" element={<UserCreate />} />
